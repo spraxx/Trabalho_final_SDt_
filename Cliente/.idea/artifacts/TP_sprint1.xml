@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TP_sprint1">
+    <output-path>$PROJECT_DIR$/out/artifacts/TP_sprint1</output-path>
+    <root id="archive" name="TP_sprint1.jar">
+      <element id="module-output" name="TP_sprint1" />
+    </root>
+  </artifact>
+</component>
