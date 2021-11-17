@@ -2,62 +2,64 @@ import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class pRequestManager extends UnicastRemoteObject implements pRequestManagerInterface{
 
-    private static final long serialVersionUID = 1L;
     private ArrayList<ProcessRequest> allReq;
     private ArrayList<ProcessRequest> waitL;
 
 
     public pRequestManager() throws RemoteException {
+        this.allReq = new ArrayList<>();
+        this.waitL = new ArrayList<>();
     }
 
-    private float usageCPU() throws Exception {
-        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        ObjectName Objname = ObjectName.getInstance("java.lang:type=OperatingSystem");
-        AttributeList AttList = mBeanServer.getAttributes(Objname, new String[]{ "LoadProcessCPU" });
-        Attribute att = (Attribute)AttList.get(0);
-        Double value  = (Double)att.getValue();
-        boolean incompleteRead = true;
-        while(incompleteRead)
-        {
-            value = (Double)att.getValue();
-            if( ((float)(value * 100)) > 0 ) incompleteRead = false;
+    public int infoCPU() throws RemoteException {
+        Process p1 = null;
+
+        try{
+            p1 = Runtime.getRuntime().exec("wmic cpu get loadpercentage");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println( "CPU usage: " + ((float)(value * 100)) );
-        return ((float)(value * 100));
+
+        assert p1 != null;
+        InputStream inpStream = p1.getInputStream();
+        Scanner s1 = new Scanner(inpStream).useDelimiter("\\A");
+        String value = "";
+        if(s1.hasNext()) {
+            value = s1.next();
+        }
+        else {
+            value = "";
+        }
+        System.out.println("["+value+"]");
+        String[] st1 = value.split("[\\r\\n]+");
+        String[] st2 = st1[1].split(" ");
+        System.out.println(Integer.parseInt(st2[0]));
+
+
+
+        return Integer.parseInt(st2[0]);
+
     }
 
-    private float memoryCPU() {
+    public String ProcRequest(ProcessRequest pRequest) throws RemoteException{
 
-        Runtime r = Runtime.getRuntime();
-        r.gc();
-
-        float usedMemory = (float)r.totalMemory()/1000000 - (float)r.freeMemory()/1000000;
-        float totalMemory = (float)r.totalMemory()/1000000;
-        float percMemory = ((usedMemory/totalMemory)*100);
-
-        System.out.println("Memory used: " + percMemory + "% ");
-        return percMemory;
-    }
-
-    public String ProcRequest(ProcessRequest pRequest) throws RemoteException, Exception {
-
-        System.out.println("Process Request: " + pRequest.getpScript());
-        allReq.add(pRequest);
-        // adiciona este pedido ao array de todos os pedidos -> allRequests()
-
-        if(usageCPU() < 25 && memoryCPU() < 1) {
+        int usageCPU = infoCPU();
+        if(usageCPU < 30) {
             System.out.println("Pedido: " + pRequest.getpScript() + " foi processado com sucesso!");
         }
         else {
-            System.out.println("O pedido ficará em lista de espera");
+            System.out.println("O pedido: " + pRequest.getpScript() + " ficará em lista de espera");
             waitL.add(pRequest);
             // devido à falta de recursos, o pedido fica em lista de espera
         }

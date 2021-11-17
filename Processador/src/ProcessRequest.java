@@ -8,7 +8,6 @@ public class ProcessRequest implements Serializable {
     public ProcessRequest(String script) {
         this.pScript = script;
         this.pId = null;
-
     }
 
     public void setpScript(String script) {
