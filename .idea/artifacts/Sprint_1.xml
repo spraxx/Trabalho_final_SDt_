@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Sprint#1">
-    <output-path>$PROJECT_DIR$/out/artifacts/Sprint_1</output-path>
-    <root id="archive" name="Sprint#1.jar">
-      <element id="module-output" name="Processador" />
-    </root>
-  </artifact>
-</component>
