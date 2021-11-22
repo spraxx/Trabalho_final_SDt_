@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Carregador/Carregador.iml" filepath="$PROJECT_DIR$/Carregador/Carregador.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Trabalho_final_SDt_.iml" filepath="$PROJECT_DIR$/Trabalho_final_SDt_.iml" />
+    </modules>
+  </component>
+</project>
