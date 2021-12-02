@@ -7,13 +7,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="apache.sshd.common" level="project" />
-    <orderEntry type="library" name="apache.sshd.core" level="project" />
-    <orderEntry type="library" name="apache.sshd.sftp" level="project" />
-    <orderEntry type="library" name="slf4j-api-1.7.30" level="project" />
-    <orderEntry type="library" name="sshd-common-2.5.1" level="application" />
-    <orderEntry type="library" name="jar_files (1)" level="application" />
-    <orderEntry type="library" name="jcl-over-slf4j-1.7.30" level="project" />
-    <orderEntry type="library" name="jsch-0.1.55 (1)" level="project" />
   </component>
 </module>
